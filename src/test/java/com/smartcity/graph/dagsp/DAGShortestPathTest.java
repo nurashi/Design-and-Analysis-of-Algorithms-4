@@ -74,4 +74,67 @@ public class DAGShortestPathTest {
         assertTrue(result.getLength() > 0);
         assertFalse(result.getPath().isEmpty());
     }
+    
+    // Test graph with negative weights
+    @Test
+    public void testNegativeWeights() {
+        Graph graph = new Graph(4, true);
+        graph.addEdge(0, 1, -2);
+        graph.addEdge(0, 2, 4);
+        graph.addEdge(1, 2, 3);
+        graph.addEdge(2, 3, 1);
+        
+        DAGShortestPath dagsp = new DAGShortestPath(graph);
+        DAGShortestPath.PathResult result = dagsp.shortestPaths(0);
+        
+        assertEquals(0, result.getDistances()[0]);
+        assertEquals(-2, result.getDistances()[1]);
+        assertEquals(1, result.getDistances()[2]);
+        assertEquals(2, result.getDistances()[3]);
+    }
+    
+    // Test source vertex with no outgoing edges
+    @Test
+    public void testSourceNoOutgoing() {
+        Graph graph = new Graph(3, true);
+        graph.addEdge(0, 1, 5);
+        graph.addEdge(1, 2, 3);
+        
+        DAGShortestPath dagsp = new DAGShortestPath(graph);
+        DAGShortestPath.PathResult result = dagsp.shortestPaths(2);
+        
+        assertEquals(0, result.getDistances()[2]);
+        assertEquals(Integer.MAX_VALUE, result.getDistances()[0]);
+        assertEquals(Integer.MAX_VALUE, result.getDistances()[1]);
+    }
+    
+    // Test unreachable vertices
+    @Test
+    public void testUnreachableVertices() {
+        Graph graph = new Graph(4, true);
+        graph.addEdge(0, 1, 2);
+        graph.addEdge(2, 3, 3);
+        
+        DAGShortestPath dagsp = new DAGShortestPath(graph);
+        DAGShortestPath.PathResult result = dagsp.shortestPaths(0);
+        
+        assertEquals(0, result.getDistances()[0]);
+        assertEquals(2, result.getDistances()[1]);
+        assertEquals(Integer.MAX_VALUE, result.getDistances()[2]);
+        assertEquals(Integer.MAX_VALUE, result.getDistances()[3]);
+    }
+    
+    // Test longest path equals shortest path
+    @Test
+    public void testSameWeights() {
+        Graph graph = new Graph(3, true);
+        graph.addEdge(0, 1, 5);
+        graph.addEdge(1, 2, 5);
+        
+        DAGShortestPath dagsp = new DAGShortestPath(graph);
+        DAGShortestPath.PathResult shortest = dagsp.shortestPaths(0);
+        DAGShortestPath.PathResult longest = dagsp.longestPaths(0);
+        
+        assertEquals(shortest.getDistances()[2], longest.getDistances()[2]);
+    }
 }

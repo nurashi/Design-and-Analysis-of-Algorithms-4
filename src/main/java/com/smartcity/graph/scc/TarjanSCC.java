@@ -6,7 +6,16 @@ import com.smartcity.common.MetricsImpl;
 
 import java.util.*;
 
-// Tarjan's algorithm for finding strongly connected components in O(V+E) time
+/**
+ * Tarjan's algorithm for finding strongly connected components.
+ * Uses a single DFS pass to identify SCCs in O(V+E) time.
+ * 
+ * Algorithm maintains discovery times and low-link values to detect
+ * when a vertex is the root of an SCC. Uses a stack to track the
+ * current path and identify complete components.
+ * 
+ * Complexity: O(V+E) time, O(V) space
+ */
 public class TarjanSCC {
     private final Graph graph;
     private final Metrics metrics;
@@ -18,12 +27,20 @@ public class TarjanSCC {
     private Stack<Integer> stack;
     private List<List<Integer>> sccs;
     
+    /**
+     * Create SCC finder for a graph.
+     * @param graph Directed graph to analyze
+     */
     public TarjanSCC(Graph graph) {
         this.graph = graph;
         this.metrics = new MetricsImpl();
     }
     
-    // Find all strongly connected components
+    /**
+     * Find all strongly connected components.
+     * @return SCCResult containing components and metrics
+     * @complexity O(V+E) time, O(V) space
+     */
     public SCCResult findSCCs() {
         int n = graph.getVertices();
         disc = new int[n];
@@ -51,7 +68,11 @@ public class TarjanSCC {
         return new SCCResult(sccs, metrics);
     }
     
-    // DFS traversal for Tarjan's algorithm
+    /**
+     * DFS traversal for Tarjan's algorithm.
+     * Updates discovery time, low-link value, and identifies SCCs.
+     * @param u Current vertex
+     */
     private void tarjanDFS(int u) {
         disc[u] = low[u] = time++;
         stack.push(u);
@@ -85,7 +106,13 @@ public class TarjanSCC {
         }
     }
     
-    // Build condensation graph (DAG of SCCs)
+    /**
+     * Build condensation graph from SCCs.
+     * Creates a DAG where each node is an SCC.
+     * @param sccResult SCC detection result
+     * @return Condensation DAG
+     * @complexity O(V+E) time and space
+     */
     public Graph buildCondensationGraph(SCCResult sccResult) {
         List<List<Integer>> sccs = sccResult.getComponents();
         int numSCCs = sccs.size();
@@ -119,19 +146,35 @@ public class TarjanSCC {
         return condensation;
     }
     
+    /**
+     * Result of SCC detection containing components and performance metrics.
+     */
     public static class SCCResult {
         private final List<List<Integer>> components;
         private final Metrics metrics;
         
+        /**
+         * Create SCC result.
+         * @param components List of strongly connected components
+         * @param metrics Performance metrics
+         */
         public SCCResult(List<List<Integer>> components, Metrics metrics) {
             this.components = components;
             this.metrics = metrics;
         }
         
+        /**
+         * Get list of SCCs.
+         * @return List of components, each containing vertex IDs
+         */
         public List<List<Integer>> getComponents() {
             return components;
         }
         
+        /**
+         * Get component sizes.
+         * @return Array of sizes for each component
+         */
         public int[] getSizes() {
             int[] sizes = new int[components.size()];
             for (int i = 0; i < components.size(); i++) {
@@ -140,6 +183,10 @@ public class TarjanSCC {
             return sizes;
         }
         
+        /**
+         * Get performance metrics.
+         * @return Metrics object with operation counts and timing
+         */
         public Metrics getMetrics() {
             return metrics;
         }
