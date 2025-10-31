@@ -2,67 +2,6 @@
 
 Assignment 4: Strongly Connected Components, Topological Ordering, and DAG Shortest Paths
 
-## Project Overview
-
-This project implements advanced graph algorithms for smart city task scheduling:
-1. Strongly Connected Components using Tarjan's algorithm
-2. Topological Sorting using Kahn's and DFS algorithms
-3. Shortest and Longest Path algorithms for DAGs
-4. Critical path finding
-
-## Project Structure
-
-```
-Design-and-Analysis-of-Algorithms-4/
-├── src/
-│   ├── main/
-│   │   └── java/
-│   │       └── com/
-│   │           └── smartcity/
-│   │               ├── Main.java
-│   │               ├── common/
-│   │               │   ├── Graph.java
-│   │               │   ├── GraphLoader.java
-│   │               │   ├── Metrics.java
-│   │               │   └── MetricsImpl.java
-│   │               └── graph/
-│   │                   ├── scc/
-│   │                   │   └── TarjanSCC.java
-│   │                   ├── topo/
-│   │                   │   ├── KahnTopologicalSort.java
-│   │                   │   └── DFSTopologicalSort.java
-│   │                   └── dagsp/
-│   │                       └── DAGShortestPath.java
-│   └── test/
-│       └── java/
-│           └── com/
-│               └── smartcity/
-│                   └── graph/
-│                       ├── scc/
-│                       │   └── TarjanSCCTest.java
-│                       ├── topo/
-│                       │   └── TopologicalSortTest.java
-│                       └── dagsp/
-│                           └── DAGShortestPathTest.java
-├── data/
-│   ├── small_cyclic_1.json
-│   ├── small_dag_1.json
-│   ├── small_multi_scc.json
-│   ├── medium_cyclic_1.json
-│   ├── medium_dag_1.json
-│   ├── medium_dense_scc.json
-│   ├── large_cyclic_sparse.json
-│   ├── large_dag_dense.json
-│   └── large_multi_scc.json
-├── pom.xml
-└── README.md
-```
-
-## Requirements
-
-- Java 11 or higher
-- Maven 3.6 or higher
-
 ## Building the Project
 
 ```bash
@@ -89,9 +28,7 @@ mvn exec:java -Dexec.mainClass="com.smartcity.Main"
 ```
 
 ## Dataset Summary
-
-The project includes 9 test datasets covering different graph characteristics:
-
+This is a sample data, you may change whthever what you want.
 ### Small Datasets (6-8 vertices)
 1. **small_cyclic_1.json**: 6 vertices, 5 edges, contains one cycle
 2. **small_dag_1.json**: 7 vertices, 6 edges, pure DAG (linear)
@@ -162,13 +99,7 @@ Implements efficient O(V+E) algorithms for DAGs:
 **Critical Path**:
 - Finds the longest path in the entire graph
 - Useful for project completion time estimation
-
-## Performance Metrics
-
-The implementation tracks:
-- **Operations**: Number of basic operations (DFS visits, edge traversals, relaxations)
-- **Time**: Execution time in milliseconds using System.nanoTime()
-
+- 
 ### Expected Complexity
 
 | Algorithm | Time Complexity | Space Complexity |
@@ -263,52 +194,6 @@ Based on the test datasets, the following patterns emerge:
 - Dense graphs show more operations than sparse graphs
 - Tarjan's single-pass advantage becomes apparent
 
-### Key Observations
-
-1. **SCC Size Impact**: Large SCCs require more stack operations during Tarjan's algorithm
-2. **Edge Density**: Dense graphs (E ≈ V²) show significantly more operations than sparse (E ≈ V)
-3. **Topological Order**: Processing order significantly affects DAG shortest path performance
-4. **Critical Paths**: Longest path computation finds optimal scheduling sequences
-
-## Conclusions
-
-### Algorithm Selection Guidelines
-
-1. **For Cycle Detection**:
-   - Use Tarjan's SCC for comprehensive analysis
-   - More efficient than repeated DFS
-   - Provides additional structural information
-
-2. **For Topological Sorting**:
-   - Kahn's algorithm for explicit cycle detection
-   - DFS-based for memory-constrained environments
-   - Both perform well in practice
-
-3. **For Path Finding in DAGs**:
-   - Always use DAG-specific algorithms over Dijkstra
-   - Linear time complexity is unbeatable
-   - Critical path analysis essential for scheduling
-
-### Practical Recommendations
-
-**Smart City Applications**:
-- Use SCC detection to identify circular task dependencies
-- Apply topological sort for scheduling maintenance tasks
-- Employ critical path analysis for project timeline estimation
-- Condensation graphs simplify complex dependency networks
-
-**Performance Optimization**:
-- Precompute SCCs for static graphs
-- Cache topological orders for repeated queries
-- Use adjacency lists for sparse graphs
-- Consider iterative implementations for very large graphs
-
-**Scalability**:
-- Algorithms scale linearly with graph size
-- Memory usage is O(V), manageable for large graphs
-- Consider external memory algorithms for massive datasets
-- Parallel variants exist for multi-core systems
-
 ## Testing
 
 The project includes comprehensive JUnit tests:
@@ -326,8 +211,4 @@ mvn test -Dtest=DAGShortestPathTest
 
 ## Author
 
-Student Assignment - Design and Analysis of Algorithms 4
-
-## License
-
-Academic use only
+Student Assignment - Design and Analysis of Algorithms 4 by Nurassyl Orazbek SE-2405 
