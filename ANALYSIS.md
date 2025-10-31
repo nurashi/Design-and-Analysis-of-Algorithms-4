@@ -1,10 +1,6 @@
-# Analysis Report - Smart City Scheduling
+# Performance Analysis
 
-## Executive Summary
-
-This report presents a comprehensive analysis of graph algorithms for smart city task scheduling, covering Strongly Connected Components detection, Topological Sorting, and DAG shortest/longest path algorithms. The analysis is based on 9 datasets of varying sizes and structures.
-
-## Dataset Analysis
+## Dataset Summary
 
 ### Small Datasets (6-8 vertices)
 
@@ -30,9 +26,9 @@ This report presents a comprehensive analysis of graph algorithms for smart city
 | large_dag_dense | 25 | 37 | 25 | Dense DAG: many paths |
 | large_multi_scc | 40 | 43 | 29 | Sparse: 4 SCCs |
 
-## Performance Results
+## Results
 
-### Tarjan's SCC Algorithm
+### SCC Detection (Tarjan)
 
 | Dataset | Vertices | Operations | Time (ms) | Ops/V |
 |---------|----------|-----------|-----------|-------|
@@ -46,13 +42,9 @@ This report presents a comprehensive analysis of graph algorithms for smart city
 | large_dag_dense | 25 | 87 | 0.064 | 3.48 |
 | large_multi_scc | 40 | 123 | 0.042 | 3.08 |
 
-**Key Observations**:
-1. Operations scale linearly with vertices: ~3 operations per vertex
-2. Time complexity remains O(V+E) as expected
-3. Dense graphs show slightly more operations per vertex
-4. Consistent performance across all dataset sizes
+Observations: Linear scaling with ~3 ops/vertex. O(V+E) confirmed.
 
-### Topological Sort (Kahn's Algorithm)
+### Topological Sort
 
 | Dataset | Condensed Vertices | Operations | Time (ms) | Ops/V |
 |---------|-------------------|-----------|-----------|-------|
@@ -66,13 +58,9 @@ This report presents a comprehensive analysis of graph algorithms for smart city
 | large_dag_dense | 25 | 100 | 0.037 | 4.00 |
 | large_multi_scc | 29 | 89 | 0.021 | 3.07 |
 
-**Key Observations**:
-1. Operations scale with condensed graph size
-2. Dense graphs require more queue operations
-3. BFS approach maintains O(V+E) complexity
-4. Consistent performance across structures
+Observations: Kahn's algorithm maintains O(V+E). Dense graphs need more operations.
 
-### Critical Path Analysis
+### Critical Paths
 
 | Dataset | Critical Path Length | Path Vertices | Max Weight |
 |---------|---------------------|---------------|------------|
@@ -86,183 +74,37 @@ This report presents a comprehensive analysis of graph algorithms for smart city
 | large_dag_dense | 55 | 13 | 55 |
 | large_multi_scc | 69 | 18 | 69 |
 
-**Key Observations**:
-1. Critical path length increases with graph depth
-2. Linear chains produce longest critical paths
-3. Dense graphs offer more alternative paths
-4. Critical path identifies scheduling bottlenecks
+Observations: Longer paths in deep graphs. Linear chains maximize critical path length.
 
-## Algorithmic Analysis
+## Algorithm Complexity
 
-### SCC Detection Bottlenecks
+All algorithms achieve O(V+E) time complexity:
+- Tarjan SCC: Single DFS pass
+- Topological Sort: One pass over vertices and edges
+- DAG Paths: Topological order + edge relaxation
 
-1. **DFS Stack Operations**: Most expensive operation
-   - Average: 3 operations per vertex
-   - Increases with cycle complexity
-   
-2. **Low-Link Updates**: O(E) edge traversals
-   - Dense graphs: more updates
-   - Sparse graphs: fewer comparisons
+## Performance Analysis
 
-3. **Stack Management**: Push/pop for SCC extraction
-   - Linear with vertex count
-   - Minimal overhead
+**Bottlenecks:**
+- SCC: DFS stack operations dominate (~3 ops per vertex)
+- Topological Sort: In-degree computation requires full edge scan
+- DAG Paths: Must compute topological order first
 
-### Topological Sort Efficiency
+**Graph Structure Impact:**
+- Sparse graphs (E ≈ V): Faster, fewer operations
+- Dense graphs (E ≈ V²): More edge traversals
+- Deep graphs: Longer critical paths
+- Wide graphs: Better parallelization potential
 
-1. **In-Degree Computation**: O(E) preprocessing
-   - Single pass over all edges
-   - Necessary for Kahn's algorithm
+## Recommendations
 
-2. **Queue Operations**: O(V) vertex processing
-   - Each vertex enqueued/dequeued once
-   - Constant time per operation
+**When to use:**
+- Tarjan SCC: Cycle detection and dependency compression
+- Kahn's algorithm: When explicit cycle detection needed
+- DFS topological: When memory is limited
+- DAG paths: Project scheduling and optimization
 
-3. **Edge Relaxation**: O(E) total relaxations
-   - Each edge processed once
-   - Optimal for DAGs
-
-### DAG Shortest Path Performance
-
-1. **Topological Order Dependency**: Must compute first
-   - One-time O(V+E) cost
-   - Amortized over all path queries
-
-2. **Edge Relaxation**: Single pass sufficient
-   - O(E) operations total
-   - No priority queue needed
-
-3. **Path Reconstruction**: O(path length)
-   - Backtracking through parent pointers
-   - Minimal memory overhead
-
-## Effect of Graph Structure
-
-### Density Impact
-
-**Sparse Graphs (E ≈ V)**:
-- Fewer operations per vertex
-- Faster SCC detection
-- Simpler condensation
-- Linear critical paths
-
-**Dense Graphs (E ≈ V²)**:
-- More edge traversals
-- Complex SCC structures
-- Multiple alternative paths
-- Shorter critical paths
-
-### SCC Size Impact
-
-**Large SCCs**:
-- More stack operations
-- Fewer condensed vertices
-- Simpler topological order
-- Compressed dependencies
-
-**Small SCCs**:
-- More condensed vertices
-- Complex topological order
-- Detailed dependency tracking
-- Granular scheduling control
-
-### Depth vs Width
-
-**Deep Graphs**:
-- Long critical paths
-- Sequential dependencies
-- Limited parallelization
-- Higher completion time
-
-**Wide Graphs**:
-- Multiple parallel paths
-- Concurrent task execution
-- Better resource utilization
-- Lower critical path length
-
-## Practical Recommendations
-
-### Algorithm Selection
-
-1. **For Cycle Detection**:
-   - Use Tarjan's SCC: O(V+E) single pass
-   - More efficient than DFS-based cycle detection
-   - Provides complete component information
-
-2. **For Task Ordering**:
-   - Kahn's algorithm: explicit cycle detection
-   - DFS topological sort: memory efficient
-   - Choose based on implementation constraints
-
-3. **For Scheduling Optimization**:
-   - DAG shortest path: minimize resource usage
-   - DAG longest path: critical path analysis
-   - Both essential for project management
-
-### Smart City Applications
-
-1. **Street Maintenance Scheduling**:
-   - SCC: identify circular route dependencies
-   - Topological sort: determine maintenance order
-   - Critical path: estimate completion time
-
-2. **Sensor Network Management**:
-   - SCC: detect communication loops
-   - DAG paths: optimize data flow
-   - Critical path: identify bottlenecks
-
-3. **Infrastructure Projects**:
-   - SCC: compress interdependent tasks
-   - Topological order: construction sequence
-   - Longest path: project timeline
-
-### Performance Optimization
-
-1. **For Large Graphs**:
-   - Consider iterative DFS implementations
-   - Use adjacency lists for sparse graphs
-   - Cache condensation results
-
-2. **For Real-Time Systems**:
-   - Precompute SCCs for static dependencies
-   - Maintain topological order incrementally
-   - Use batch updates for efficiency
-
-3. **For Memory Constraints**:
-   - Stream processing for very large graphs
-   - External memory algorithms for massive datasets
-   - Compressed graph representations
-
-## Complexity Verification
-
-All algorithms achieve theoretical optimal complexity:
-
-- **Tarjan SCC**: O(V+E) verified by linear operation scaling
-- **Kahn Topological Sort**: O(V+E) confirmed by edge counts
-- **DAG Shortest Path**: O(V+E) demonstrated in results
-- **DAG Longest Path**: O(V+E) same as shortest path
-
-The empirical results confirm linear scaling with graph size, validating the implementation correctness.
-
-## Conclusion
-
-The implemented algorithms provide efficient solutions for smart city task scheduling:
-
-1. **Tarjan's SCC** effectively identifies and compresses circular dependencies
-2. **Topological sorting** provides valid execution orders for acyclic task graphs
-3. **DAG path algorithms** optimize scheduling and identify critical bottlenecks
-
-The analysis demonstrates that algorithm choice should be based on:
-- Graph structure (cyclic vs acyclic)
-- Performance requirements (real-time vs batch)
-- Output needs (ordering vs optimization)
-
-For smart city applications, the combination of all three algorithms provides comprehensive scheduling solutions with optimal time complexity.
-
-## Future Work
-
-1. Parallel algorithms for multi-core systems
-2. Incremental updates for dynamic graphs
-3. Approximation algorithms for NP-hard extensions
-4. Integration with constraint satisfaction solvers
-5. Real-time monitoring and adaptive scheduling
+**Smart city applications:**
+- Street maintenance: SCC for route dependencies, topological sort for ordering
+- Sensor networks: Critical path analysis for bottlenecks
+- Infrastructure: Longest path for project timelines
