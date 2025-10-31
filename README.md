@@ -7,12 +7,14 @@ Assignment 4: Strongly Connected Components, Topological Ordering, and DAG Short
 ```bash
 mvn clean compile
 ```
+<img width="1913" height="792" alt="image" src="https://github.com/user-attachments/assets/e792e3bb-2b82-434b-ad66-ffa11a0014f6" />
 
 ## Running Tests
 
 ```bash
 mvn test
 ```
+<img width="1918" height="1150" alt="image" src="https://github.com/user-attachments/assets/cbcbf9aa-ef4a-478c-8c15-ec6bbaee6507" />
 
 ## Running the Main Application
 
@@ -21,11 +23,6 @@ mvn clean package
 java -jar target/smart-city-scheduling-1.0.0.jar
 ```
 
-Or with Maven:
-
-```bash
-mvn exec:java -Dexec.mainClass="com.smartcity.Main"
-```
 
 ## Dataset Summary
 This is a sample data, you may change whthever what you want.
@@ -208,6 +205,11 @@ mvn test -Dtest=TarjanSCCTest
 mvn test -Dtest=TopologicalSortTest
 mvn test -Dtest=DAGShortestPathTest
 ```
+<img width="1921" height="1095" alt="image" src="https://github.com/user-attachments/assets/3111893f-b45a-4553-bda6-d5bb267c2653" />
+<img width="1901" height="1082" alt="image" src="https://github.com/user-attachments/assets/cdf5dd01-a1a2-4e68-a53c-e1835ddf8d2b" />
+<img width="1912" height="1077" alt="image" src="https://github.com/user-attachments/assets/34f7117b-e196-4c14-ab2f-b79e22d0a097" />
+
+
 
 ## Author
 
