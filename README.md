@@ -1,4 +1,3 @@
-<img width="776" height="978" alt="image" src="https://github.com/user-attachments/assets/59ec4bcc-7521-4767-a1df-14571c636400" /># Smart City Scheduling - Graph Algorithms
 
 Assignment 4: Strongly Connected Components, Topological Ordering, and DAG Shortest Paths
 
