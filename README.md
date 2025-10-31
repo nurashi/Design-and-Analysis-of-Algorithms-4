@@ -1,4 +1,4 @@
-# Smart City Scheduling - Graph Algorithms
+<img width="776" height="978" alt="image" src="https://github.com/user-attachments/assets/59ec4bcc-7521-4767-a1df-14571c636400" /># Smart City Scheduling - Graph Algorithms
 
 Assignment 4: Strongly Connected Components, Topological Ordering, and DAG Shortest Paths
 
@@ -20,9 +20,16 @@ mvn test
 
 ```bash
 mvn clean package
-java -jar target/smart-city-scheduling-1.0.0.jar
+mvn exec:java -Dexec.mainClass="com.smartcity.Main"
 ```
+<img width="978" height="220" alt="image" src="https://github.com/user-attachments/assets/e384e4ff-f3cc-4cf6-84bc-2f4bf4dd3d6d" />
 
+Info about Proccesing:
+<img width="887" height="975" alt="image" src="https://github.com/user-attachments/assets/57d0ba1e-5893-4ed0-9d31-cbb78d65c6ff" />
+<img width="908" height="1038" alt="image" src="https://github.com/user-attachments/assets/27666964-fdd9-488c-8e63-4bb69d69fc2b" />
+<img width="860" height="965" alt="image" src="https://github.com/user-attachments/assets/74558dc5-89f8-41b8-9fc2-201852cfb365" />
+<img width="843" height="1117" alt="image" src="https://github.com/user-attachments/assets/227feb1f-046d-4420-9126-bcc854eea33d" />
+...
 
 ## Dataset Summary
 This is a sample data, you may change whthever what you want.
